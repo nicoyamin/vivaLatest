@@ -9,6 +9,12 @@
             "email": "nicoyamin@hotmail.com.ar"
         }
     ],
+	
+	"autoload": {
+		"psr-4": {
+			"Viva\\": "src"
+		}
+	},
     "require": {
         "catfan/medoo": "^1.1"
     },
