@@ -2,6 +2,9 @@
 
 namespace Viva;
 
+use Particle\Validator\Validator;
+use Particle\Validator\ValidationResult;
+use DateTime;
 
 class Persona
 {
@@ -18,6 +21,8 @@ class Persona
     protected $email;
     protected $telefono;
     protected $celular;
+
+
 
     public function __construct(\medoo $medoo) //Llama a la BD para traer registros
     {
@@ -46,14 +51,7 @@ class Persona
 
     public function setDni($dni)  //Esta funcion realiza validacion de numero entero y revisa que la longitud del dni sea entre 1000000 y 100000000
     {
-        if (filter_var($dni, FILTER_VALIDATE_INT, array("options"=> array("min_range"=>1000000, "max_range"=>100000000)))===false)
-        {
-            throw new \InvalidArgumentException('DNI no valido. Por favor, revise el DNI ingresado');
-        }
-        else
-        {
-            $this->dni=$dni;
-        }
+        $this->dni=$dni;
 
         return $this;
     }
@@ -94,58 +92,26 @@ class Persona
 
     public function setCodigoPostal($codigo_postal)
     {
-        if (filter_var($codigo_postal, FILTER_VALIDATE_INT)===false)
-        {
-            throw new \InvalidArgumentException('Codigo postal no valido. Por favor, revise el valor ingresado');
-        }
-        else
-        {
-            $this->codigo_postal=$codigo_postal;
-        }
-
+        $this->codigo_postal=$codigo_postal;
         return $this;
     }
 
     public function setEmail($email)
     {
-        if(filter_var($email, FILTER_VALIDATE_EMAIL))
-        {
-            $this->email=$email;
-        }
-        else
-        {
-            throw new \InvalidArgumentException('Email no valido. Por favor, revise lo ingresado');
-        }
-
+        $this->email=$email;
         return $this;
     }
 
     public function setTelefono($telefono)
     {
-        if (filter_var($telefono, FILTER_VALIDATE_INT)===false)
-        {
-            throw new \InvalidArgumentException('Por favor, ingrese solo el numero, sin guiones mi espacios');
-        }
-        else
-        {
-            $this->telefono=$telefono;
-        }
-
+        $this->telefono=$telefono;
         return $this;
     }
 
     public function setCelular($celular)
     {
-        if (filter_var($celular, FILTER_VALIDATE_INT)===false)
-        {
-            throw new \InvalidArgumentException('Por favor, ingrese solo el numero, sin guiones mi espacios');
-        }
-        else
-        {
-            $this->celular=$celular;
-        }
-
-        return $this;
+        $this->celular=$celular;
+         return $this;
     }
     //FIN DE FUNCIONES SETTERS
 
@@ -209,25 +175,40 @@ class Persona
 
     //FIN DE FUNCIONES GETTERS
 
-    public function insertar()
+    public function validarPersona() //Reglas de validacion para la clase persona. Usa Clases validator y validationResult
     {
-        if($this->getNombre() && $this->getApellido() && $this->getDni())
-        {
-            return $this->viva->insert('Persona', [
-                'Nombre'=>$this->getNombre(),
-                'Apellido'=>$this->getApellido(),
-                'Documento'=>$this->getDni(),
-                'Fecha_nacimiento'=>$this->getNacimiento(),
-                'Direccion'=>$this->getDireccion(),
-                'Ciudad'=>$this->getCiudad(),
-                'Provincia'=>$this->getProvincia(),
-                'Codigo_postal'=>$this->getCodigoPostal(),
-                'Email'=>$this->getEmail(),
-                'Telefono'=>$this->getTelefono(),
-                'Celular'=>$this->getCelular()
-            ]);
-        }
+        $v=new Validator();
+        $v->required('Nombre')->alnum(true)->lengthBetween(1,100);
+        $v->required('Apellido')->alnum(true)->lengthBetween(1,100);
+        $v->required('Documento')->digits()->lengthBetween(7,10);
+        $v->optional('Fecha_nacimiento')->datetime();
+        $v->optional('Direccion')->alnum(true)->lengthBetween(1,255);
+        $v->optional('Ciudad')->alnum(true)->lengthBetween(1,100);
+        $v->optional('Provincia')->alnum(true)->lengthBetween(1,100);
+        $v->optional('Codigo_postal')->alnum()->lengthBetween(1,10);
+        $v->optional('Email')->email()->lengthBetween(5,100);
+        $v->optional('Telefono')->digits()->lengthBetween(5,10);
+        $v->optional('Celular')->digits()->lengthBetween(10,null);
 
-        throw new \Exception("Error al insertar");
+
+        return $v->validate($this->valores());
     }
+
+    protected function valores()   //Arma un array con los valores para su validacion
+    {
+        return[
+            'Nombre' => $this->getNombre(),
+            'Apellido' => $this->getApellido(),
+            'Documento' => $this->getDni(),
+            'Fecha_nacimiento' => $this->getNacimiento(),
+            'Direccion' => $this->getDireccion(),
+            'Ciudad' => $this->getCiudad(),
+            'Provincia' => $this->getProvincia(),
+            'Codigo_postal' => $this->getCodigoPostal(),
+            'Email' => $this->getEmail(),
+            'Telefono' => $this->getTelefono(),
+            'Celular' => $this->getCelular()
+        ];
+    }
+
 }
