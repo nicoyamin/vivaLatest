@@ -186,7 +186,7 @@ if(isset($_POST['btnCierre']) && $_SERVER['REQUEST_METHOD'] == 'POST')
 
 ?>
 <!doctype html>
-<html class="no-js" lang="">
+<html class="" lang="">
     <head>
         <meta charset="utf-8">
         <meta http-equiv="x-ua-compatible" content="ie=edge">
@@ -200,7 +200,7 @@ if(isset($_POST['btnCierre']) && $_SERVER['REQUEST_METHOD'] == 'POST')
         <link rel="stylesheet" href="css/normalize.css">
         <link rel="stylesheet" href="css/main.css">
         <link href="css/bootstrap.min.css" rel="stylesheet">
-        <script src="js/vendor/modernizr-2.8.3.min.js"></script>
+        <script src="/js/vendor/modernizr-2.8.3.min.js"></script>
     </head>
     <body>
         <!--[if lt IE 8]>
@@ -300,8 +300,8 @@ if(isset($_POST['btnCierre']) && $_SERVER['REQUEST_METHOD'] == 'POST')
 
                 $('#formCierre').on('submit',function(){
 
-                    var debe=<?php if (isset($debe)) echo $debe; ?>;
-                    var haber=<?php if(isset($haber)) echo $haber; ?>;
+                    var debe=<?php if (isset($debe)) echo $debe; else echo 0; ?>;
+                    var haber=<?php if(isset($haber)) echo $haber; else echo 0; ?>;
                     var totalSistema=haber-debe;
 
                     var totalEmpleado=(parseFloat($('#efectivo').val())+parseFloat($('#valores').val())).toFixed(2);
