@@ -300,8 +300,8 @@ if(isset($_POST['btnCierre']) && $_SERVER['REQUEST_METHOD'] == 'POST')
 
                 $('#formCierre').on('submit',function(){
 
-                    var debe=<?php echo $debe; ?>;
-                    var haber=<?php echo $haber; ?>;
+                    var debe=<?php if (isset($debe)) echo $debe; ?>;
+                    var haber=<?php if(isset($haber)) echo $haber; ?>;
                     var totalSistema=haber-debe;
 
                     var totalEmpleado=(parseFloat($('#efectivo').val())+parseFloat($('#valores').val())).toFixed(2);
