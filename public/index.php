@@ -207,6 +207,7 @@ if(isset($_POST['btnCierre']) && $_SERVER['REQUEST_METHOD'] == 'POST')
         <link rel="stylesheet" href="css/normalize.css">
         <link rel="stylesheet" href="css/main.css">
         <link href="css/bootstrap.min.css" rel="stylesheet">
+        <link rel="stylesheet" type="text/css" href="css/vivaStyle.css" media="screen" />
         <script src="js/vendor/modernizr-2.8.3.min.js"></script>
     </head>
     <body>

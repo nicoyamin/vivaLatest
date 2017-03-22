@@ -90,6 +90,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST')
 
     <link rel="stylesheet" href="css/normalize.css">
     <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" type="text/css" href="css/vivaStyle.css" media="screen" />
     <script src="js/vendor/modernizr-2.8.3.min.js"></script>
 </head>
 <body>
@@ -99,28 +100,31 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST')
 
 <!-- Add your site or application content here -->
 <h1><?php echo $_GET["titulo"]; ?></h1>
-<form method="post">
+<form method="post" class="form-style-1">
     <div>
-        <label>Nombre usuario: <input type="text" name="usuario" value="<?php echo $datos["Nombre_usuario"];?>"></label>
+        <label>Nombre usuario: </label>
+        <input type="text" name="usuario" value="<?php echo $datos["Nombre_usuario"];?>">
     </div>
     <div>
-        <label>Contraseña: <input type="password" name="password"></label>
+        <label>Contraseña: </label>
+        <input type="password" name="password">
     </div>
     <div>
-        <label>Confirmar contraseña: <input type="password" name="confirmar"></label>
+        <label>Confirmar contraseña: </label>
+        <input type="password" name="confirmar">
     </div>
     <div>
-        <label>Privilegio:
-            <input type="radio" name="privilegio" value="1" checked>Operador
-            <input type="radio" name="privilegio" value="2">Administrador
-        </label>
+        <label>Privilegio:</label>
+        <input type="radio" name="privilegio" value="1" checked>Operador
+        <input type="radio" name="privilegio" value="2">Administrador
     </div>
     <div>
         <input type="submit" value="Aceptar" action="">
+        <a href="gestionUsuarios.php" ><button type="button" id="btnUsuarioCancelar">Cancelar</button></a>
     </div>
 </form>
 
-<a href="gestionUsuarios.php"><button>Cancelar</button></a>
+
 
 <script src="https://code.jquery.com/jquery-1.12.0.min.js"></script>
 <script>window.jQuery || document.write('<script src="js/vendor/jquery-1.12.0.min.js"><\/script>')</script>

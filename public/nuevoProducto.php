@@ -108,6 +108,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <link rel="stylesheet" href="css/normalize.css">
     <link rel="stylesheet" href="css/main.css">
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/chosen/1.4.2/chosen.min.css">
+    <link rel="stylesheet" type="text/css" href="css/vivaStyle.css" media="screen" />
     <script src="js/vendor/modernizr-2.8.3.min.js"></script>
     <script src="js/vendor/jquery-1.12.0.min.js"></script>
 </head>
@@ -120,65 +121,70 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 <?php include 'scripts/logout.inc.php'; ?>
 <h1><?php echo $_GET["titulo"]; ?></h1>
-<form method="post">
+<form method="post" class="form-style-1">
     <div>
-        <label>Nombre: <input type="text" name="nombre" value="<?php echo $datos["Nombre_producto"];?>"></label>
+        <label>Nombre:</label>
+        <input type="text" name="nombre" value="<?php echo $datos["Nombre_producto"];?>">
     </div>
     <div>
-        <label>Categoria:
-            <select class="selectUnico" name="categoria" data-placeholder="Categoria">
-                <option value="0"></option>
-                <?php foreach($listaCats as $listaCat):?>
-                    <option
-                        <?php if($listaCat['idCategoria'] == $datos["idCategoria"]) { ?> selected="selected" <?php } ?>
-                        value="<?php echo $listaCat["idCategoria"];?>"><?php echo $listaCat["Categoria_nombre"];?></option>
-                <?php endforeach; ?>
-            </select>
-        </label>
+        <label>Categoria:</label>
+        <select class="selectUnico" name="categoria" data-placeholder="Categoria">
+            <option value="0"></option>
+            <?php foreach($listaCats as $listaCat):?>
+                <option
+                    <?php if($listaCat['idCategoria'] == $datos["idCategoria"]) { ?> selected="selected" <?php } ?>
+                    value="<?php echo $listaCat["idCategoria"];?>"><?php echo $listaCat["Categoria_nombre"];?></option>
+            <?php endforeach; ?>
+        </select>
         <button type="button" id="btnNuevaCategoria" data-toggle="modal" data-target="#modalNuevaCategoria">Nueva Categoria</button>
     </div>
     <div>
-        <label>Proveedor:
-            <select class="selectUnico" name="proveedor" data-placeholder="Proveedor">
-                <option value="0"></option>
-                <?php foreach($listaProvs as $listaProv):?>
-                    <option
-                        <?php if($listaProv['idProveedor'] == $datos["idProveedor"]) { ?>
-                            selected
-                        <?php }; ?>
-                        value="<?php echo $listaProv["idProveedor"];?>"><?php echo $listaProv["Proveedor_nombre"];?>
-                    </option>
-                <?php endforeach; ?>
-            </select>
-        </label>
+        <label>Proveedor:</label>
+        <select class="selectUnico" name="proveedor" data-placeholder="Proveedor">
+            <option value="0"></option>
+            <?php foreach($listaProvs as $listaProv):?>
+                <option
+                    <?php if($listaProv['idProveedor'] == $datos["idProveedor"]) { ?>
+                        selected
+                    <?php }; ?>
+                    value="<?php echo $listaProv["idProveedor"];?>"><?php echo $listaProv["Proveedor_nombre"];?>
+                </option>
+            <?php endforeach; ?>
+        </select>
     </div>
     <div>
-        <label>Descripcion: <input type="text" name="descripcion" value="<?php echo $datos["Descripcion_producto"];?>"></label>
+        <label>Descripcion: </label>
+        <input type="text" name="descripcion" value="<?php echo $datos["Descripcion_producto"];?>">
     </div>
     <div>
-        <label>Cantidad unitaria: <input type="text" name="cantidad" value="<?php echo $datos["Cantidad_unitaria_producto"];?>"></label>
+        <label>Cantidad unitaria:</label>
+        <input type="text" name="cantidad" value="<?php echo $datos["Cantidad_unitaria_producto"];?>">
     </div>
     <div>
-        <label>Unidad: <input type="text" name="unidad" value="<?php echo $datos["Unidad_producto"];?>"></label>
+        <label>Unidad: </label>
+        <input type="text" name="unidad" value="<?php echo $datos["Unidad_producto"];?>">
     </div>
     <div>
-        <label>Precio unitario: <input type="text" name="precio" value="<?php echo $datos["Precio_unitario_producto"];?>"></label>
+        <label>Precio unitario: </label>
+        <input type="text" name="precio" value="<?php echo $datos["Precio_unitario_producto"];?>">
     </div>
     <div>
-        <label>Es perecedero?:
-            <input type="radio" name="perecedero" value="Si" checked>Si
-            <input type="radio" name="perecedero" value="No">No
-        </label>
+        <label>Es perecedero?:</label>
+        <input type="radio" name="perecedero" value="Si" checked>Si
+        <input type="radio" name="perecedero" value="No">No
     </div>
     <div>
-        <label>Codigo de Barras: <input type="text" name="codigo_barras" value="<?php echo $datos["Codigo_barras_producto"];?>"></label>
+        <label>Codigo de Barras:</label>
+        <input type="text" name="codigo_barras" value="<?php echo $datos["Codigo_barras_producto"];?>">
     </div>
 
     <div>
-        <label>Existencias (Cantidad Actual): <input type="text" name="existencias" value="<?php echo $datos["Existencia_producto"];?>"></label>
+        <label>Existencias (Cantidad Actual):</label>
+        <input type="text" name="existencias" value="<?php echo $datos["Existencia_producto"];?>">
     </div>
     <div>
-        <label>Stock Minimo: <input type="text" name="stockMinimo" value="<?php echo $datos["Stock_minimo_producto"];?>"></label>
+        <label>Stock Minimo:</label>
+        <input type="text" name="stockMinimo" value="<?php echo $datos["Stock_minimo_producto"];?>">
     </div>
 
     <div>
@@ -193,8 +199,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true"> X </button>
                     <h4 class="modal-title" id="modalTitle">Agregar Nueva Categoria</h4>
                     <p hidden id="modalId" class="modal-body"> </p>
-                    <h4><strong>Nombre Categoria:</strong><input id="modalNombre" class="modal-body"></input></h4>
-                    <h4><strong>Descripcion:</strong><input id="modalDescripcion" class="modal-body"></input></h4>
+                    <h4><strong>Nombre Categoria:</strong><input id="modalNombre" class="modal-body"></h4>
+                    <h4><strong>Descripcion:</strong><input id="modalDescripcion" class="modal-body"></h4>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default"  id="Cerrar" data-dismiss="modal">Cerrar</button>
                     <button type="button" class="btn btn-primary" id="aceptar">Aceptar</button>
