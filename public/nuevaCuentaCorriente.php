@@ -3,7 +3,7 @@ use Particle\Validator\Validator;
 use Particle\Validator\ValidationResult;
 
 require_once '../vendor/autoload.php';
-
+require_once  'acceso.inc.php';
 include 'scripts/db.inc.php';
 
 if (!userIsLoggedIn())

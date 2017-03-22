@@ -152,6 +152,16 @@ if($_POST["opcion"]==4)
 
     $viva->update("Compra",["Estado"=>3],["idCompra"=>$_POST["compra"]]); //Cambiar estadio a orden de compra generada
 
+    $nombre=$nombre.".pdf";
+
+    $ruta='reports/compras/'.$nombre;
+
+    $atras="gestionCompras.php";
+
+    $link="ventanaDescarga.php?nombre=$nombre&ruta=$ruta&atras=$atras";
+
+    echo json_encode($link);
+
 }
 ?>
 

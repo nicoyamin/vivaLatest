@@ -29,8 +29,8 @@ $nombreReporte = "Alivio_de_caja_numero_" . $nroComprobante;
 
 $jasper->process(
 // Ruta y nombre de archivo de entrada del reporte
-    '../reports/comprobanteAlivio.jasper',
-    '../reports/' . $nombreReporte, // Ruta y nombre de archivo de salida del reporte (sin extensión)
+    '../reports/alivios/comprobanteAlivio.jasper',
+    '../reports/alivios/' . $nombreReporte, // Ruta y nombre de archivo de salida del reporte (sin extensión)
     array('pdf'), // Formatos de salida del reporte
     array('nroComprobante' => $nroComprobante,
         'nombre' => $nombre,
@@ -40,6 +40,13 @@ $jasper->process(
     )
 )->execute();
 
+$nombre=$nombreReporte.".pdf";
+
+$ruta='reports/alivios/'.$nombre;
+
+$atras="entradaCaja.php";
+$link="ventanaDescarga.php?nombre=$nombre&ruta=$ruta&atras=$atras";
+
 if(isset($_SESSION["idTurno"])) $idTurno=$_SESSION["idTurno"];
 else $idTurno=0;
 
@@ -47,5 +54,5 @@ $viva->insert("Caja_comprobante_alivio",["Numero"=>$nroComprobante,"Observacione
 
 $viva->insert("Caja",["idUsuario"=>$datosUsuario[0]["idUsuario"], "Fecha"=>date("Y-m-d H:i:s"), "Tipo"=>"Entrada", "Concepto"=>$_POST["concepto"],"Debe"=>0.00, "Haber"=>$_POST["importe"],"Observaciones"=>$observaciones,"Referencia"=>$_POST["referencia"],"idReferencia"=>$nroComprobante,"idTurno"=>$idTurno]);
 
-echo json_encode($nroComprobante);
+echo json_encode($link);
 ?>

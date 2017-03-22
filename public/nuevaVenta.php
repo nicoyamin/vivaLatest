@@ -25,6 +25,12 @@ if (!userHasRole('1') && !userHasRole('2') && !userHasRole('3'))
     exit();
 }
 
+if (userHasRole('1') && $_SESSION["turno"]=="Sin iniciar") {
+    $error = 'Debe iniciar su turno para realizar este tipo de operaciones';
+    include 'accesoDenegado.php';
+    exit();
+}
+
 $usuario = new Viva\Usuario($viva);
 $listaProds=$viva->select("Producto",["idProducto","Nombre_producto","Unidad_producto","Cantidad_unitaria_producto","Codigo_barras_producto"],["AND"=>["Habilitado"=>"Si","Existencia_producto[>]"=>0]]);
 
@@ -162,8 +168,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST')
 
     $jasper->process(
     // Ruta y nombre de archivo de entrada del reporte
-        'reports/remito.jasper',
-        'reports/'.$nombre, // Ruta y nombre de archivo de salida del reporte (sin extensión)
+        'reports/ventas/remito.jasper',
+        'reports/ventas/'.$nombre, // Ruta y nombre de archivo de salida del reporte (sin extensión)
         array('pdf'), // Formatos de salida del reporte
         array('numero' => $nroComprobante,
             'fecha'=>date("d-m-Y"),
@@ -180,6 +186,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST')
         ,$database
     )->execute();
 
+    $nombre=$nombre.".pdf";
+
+    $ruta='reports/ventas/'.$nombre;
+
+    $atras=$_SERVER["PHP_SELF"];
+    header("Location: ventanaDescarga.php?nombre=$nombre&ruta=$ruta&atras=$atras");
 
     //Insertar registro en tabla factura
     $viva->insert("Factura",["idVenta"=>$idVenta, "numero"=>$nroComprobante, "Fecha"=>$hoy]);

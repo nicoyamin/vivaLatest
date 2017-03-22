@@ -124,8 +124,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST')
         ,$database
     )->execute();
 
-        //exec($jasper->output().' 2>&1', $output);
-        //dump($output);
+        $nombre=$nombre.".pdf";
+
+        $ruta='reports/compras/'.$nombre;
+
+        $atras=$_SERVER["PHP_SELF"];
+        header("Location: ventanaDescarga.php?nombre=$nombre&ruta=$ruta&atras=$atras");
+
+        //include('scripts/descargaReporte.php');
+
 
     }
 
@@ -133,7 +140,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST')
     {
 
 
-        $nombre=$nombreProv."-Cotizacion_fecha_".date("m-d-Y");
+        $nombre=$nombreProv."-Cotizacion_fecha_".date("d-m-Y");
             
      $jasper->process(
         // Ruta y nombre de archivo de entrada del reporte
@@ -150,8 +157,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST')
               ) // Parámetros del reporte
         ,$database
     )->execute();
+    $nombre=$nombre.".docx";
+        $ruta='reports/cotizaciones/'.$nombre;
+        $atras=$_SERVER["PHP_SELF"];
 
-        //header("Content-Disposition: attachment; filename=\"$nombre\".docx");
+        header("Location: ventanaDescarga.php?nombre=$nombre&ruta=$ruta&atras=$atras");
 
 
     }
@@ -236,7 +246,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST')
     <div class="modal fade" id="modalDetallesCompra" tabindex="-1" role="dialog" aria-labelledby="basicModal" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
-                <form method="post">
+                <form method="post" id="formDetalles">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true"> X </button>
                     <h4 class="modal-title" id="modalTitle">Detalles de la compra</h4>
@@ -253,7 +263,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST')
                     <h4><strong>Enviar por:</strong><input id="modalEnvio" class="modal-body" name="envio"></h4>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default"  id="Cerrar" data-dismiss="modal">Cerrar</button>
-                   <input type="submit" value="Aceptar" action="">
+                   <input type="submit" value="Aceptar" action="" id="btnGenerarCompra">
                 </div>
                 </form>
             </div>
@@ -375,6 +385,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST')
 
 
         });
+
+
 
     });
 

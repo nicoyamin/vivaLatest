@@ -239,9 +239,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 data: {importe: importe, observaciones: observaciones, concepto: concepto, referencia: 11},
                 dataType: 'json',
                 success: function (response) {
-                    alert("Comprobante de Alivio de Caja Nro " + response + " generado con exito");
+                    alert("Comprobante de Alivio de Caja generado con exito");
                     $("#modalAlivioCaja .close").click();
-                    location.reload();
+                    window.location.href=response;
                 }
             });
         });
@@ -265,9 +265,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     data: {importeRecibo: importe, observaciones: observaciones, cliente: cliente, formaPago:formaPago, idCliente:idCliente},
                     dataType: 'json',
                     success: function (response) {
-                        alert("Recibo Nro " + response + " generado con exito");
+                        alert("Recibo generado con exito");
                         $("#modalRecibo .close").click();
-                        //location.reload();
+                        window.location.href=response;
                     }
                 });
             }
