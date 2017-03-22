@@ -29,8 +29,8 @@ $nombreReporte = "Recibo_numero_" . $nroRecibo;
 $jasper = new JasperPHP;
 $jasper->process(
 // Ruta y nombre de archivo de entrada del reporte
-    '../reports/recibo.jasper',
-    '../reports/' . $nombreReporte, // Ruta y nombre de archivo de salida del reporte (sin extensión)
+    '../reports/recibos/recibo.jasper',
+    '../reports/recibos/' . $nombreReporte, // Ruta y nombre de archivo de salida del reporte (sin extensión)
     array('pdf'), // Formatos de salida del reporte
     array('nroRecibo' => $nroRecibo,
         'empleado' => $empleado,
@@ -41,6 +41,13 @@ $jasper->process(
         'formaPago'=>$medioPago
     )
 )->execute();
+
+$nombre=$nombreReporte.".pdf";
+
+$ruta='reports/recibos/'.$nombre;
+
+$atras="entradaCaja.php";
+$link="ventanaDescarga.php?nombre=$nombre&ruta=$ruta&atras=$atras";
 
 //Insertar registro de recibo en tabla Recibo y obtener el id del mismo
 $idRecibo=$viva->insert("Recibo",["Numero"=>$nroRecibo,"Observaciones"=>$observaciones, "Fecha"=>date("Y-m-d")]);
@@ -67,4 +74,4 @@ else $idTurno=0;
 $viva->insert("Caja",["idUsuario"=>$datosUsuario[0]["idUsuario"], "Fecha"=>date("Y-m-d H:i:s"), "Tipo"=>"Entrada", "Concepto"=>2,"Debe"=>0.00, "Haber"=>$importe,"Observaciones"=>$observaciones,"Referencia"=>3,"idReferencia"=>$nroRecibo, "idTurno"=>$idTurno]);
 
 
-echo json_encode($nroRecibo);
+echo json_encode($link);

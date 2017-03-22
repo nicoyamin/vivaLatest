@@ -256,6 +256,7 @@ $(function(){
             dataType:'json',
             success: function(response){
                 alert("Orden de Compra generada con exito");
+                window.location.href=response;
             }
 
 

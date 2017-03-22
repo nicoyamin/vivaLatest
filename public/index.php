@@ -130,8 +130,8 @@ if(isset($_POST['btnCierre']) && $_SERVER['REQUEST_METHOD'] == 'POST')
 
             $jasper->process(
             // Ruta y nombre de archivo de entrada del reporte
-                'reports/cierreCaja.jasper',
-                'reports/'.$nombreReporte, // Ruta y nombre de archivo de salida del reporte (sin extensi�n)
+                'reports/cierres/cierreCaja.jasper',
+                'reports/cierres/'.$nombreReporte, // Ruta y nombre de archivo de salida del reporte (sin extensi�n)
                 array('pdf'), // Formatos de salida del reporte
                 array('nombre' => $nombre,
                     'turno'=>$turno,
@@ -149,7 +149,8 @@ if(isset($_POST['btnCierre']) && $_SERVER['REQUEST_METHOD'] == 'POST')
             //Las siguientes tablas se ven afectadas: Asistencia(actualizar), caja_arqueo(insertar), caja_comprobante_diario(insertar)
             $turno = array("Check_out" => date('H:i:s'), "Confirmado" => "Confirmado");
 
-            $rendicion=$haber-$debe;
+            //$rendicion=$haber-$debe;
+            $rendicion=$debe-$haber;
             $diferencia=($_POST["efectivo"]+$_POST["valores"])-$rendicion;
             $db->actualizar('Asistencia', $turno, "idAsistencia=$idTurno");
 
@@ -172,7 +173,12 @@ if(isset($_POST['btnCierre']) && $_SERVER['REQUEST_METHOD'] == 'POST')
 
             $_SESSION["turno"]="Sin iniciar";
 
-            header("Refresh:0");
+            $nombre=$nombreReporte.".pdf";
+
+            $ruta='reports/cierres/'.$nombre;
+
+            $atras="index.php";
+            header("Location: ventanaDescarga.php?nombre=$nombre&ruta=$ruta&atras=$atras");
         }
 
         elseif($flagTurno==2 and $_POST["codigo"]!=$turnoIniciado[0]["Codigo"])
@@ -185,6 +191,7 @@ if(isset($_POST['btnCierre']) && $_SERVER['REQUEST_METHOD'] == 'POST')
 
 
 ?>
+
 <!doctype html>
 <html class="" lang="">
     <head>
@@ -200,7 +207,7 @@ if(isset($_POST['btnCierre']) && $_SERVER['REQUEST_METHOD'] == 'POST')
         <link rel="stylesheet" href="css/normalize.css">
         <link rel="stylesheet" href="css/main.css">
         <link href="css/bootstrap.min.css" rel="stylesheet">
-        <script src="/js/vendor/modernizr-2.8.3.min.js"></script>
+        <script src="js/vendor/modernizr-2.8.3.min.js"></script>
     </head>
     <body>
         <!--[if lt IE 8]>
@@ -302,7 +309,8 @@ if(isset($_POST['btnCierre']) && $_SERVER['REQUEST_METHOD'] == 'POST')
 
                     var debe=<?php if (isset($debe)) echo $debe; else echo 0; ?>;
                     var haber=<?php if(isset($haber)) echo $haber; else echo 0; ?>;
-                    var totalSistema=haber-debe;
+                    //var totalSistema=Math.abs(haber-debe);
+                    var totalSistema=debe-haber;
 
                     var totalEmpleado=(parseFloat($('#efectivo').val())+parseFloat($('#valores').val())).toFixed(2);
 
