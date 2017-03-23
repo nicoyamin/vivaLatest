@@ -33,6 +33,7 @@ $listaProds=$viva->select("Producto",["idProducto","Nombre_producto"]);
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST')
 {
+//	dump($_POST);
     $nombreProv=$viva->select("Proveedor",["Proveedor_nombre"],["idProveedor"=>$_POST['proveedor']]);
 
     $nombreProv=$nombreProv[0]["Proveedor_nombre"];
@@ -142,7 +143,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST')
 
         $nombre=$nombreProv."-Cotizacion_fecha_".date("d-m-Y");
             
-     $jasper->process(
+    $comando=$jasper->process(
         // Ruta y nombre de archivo de entrada del reporte
         'reports/cotizaciones/Cotizacion.jasper',
         'reports/cotizaciones/'.$nombre, // Ruta y nombre de archivo de salida del reporte (sin extensión)
@@ -157,6 +158,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST')
               ) // Parámetros del reporte
         ,$database
     )->execute();
+	//dump($comando);
     $nombre=$nombre.".docx";
         $ruta='reports/cotizaciones/'.$nombre;
         $atras=$_SERVER["PHP_SELF"];
