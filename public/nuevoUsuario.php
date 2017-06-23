@@ -107,6 +107,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST')
     <link rel="stylesheet" href="css/normalize.css">
     <link rel="stylesheet" href="css/main.css">
     <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="css/vivaStyle.css" media="screen" />
+
     <script src="js/vendor/modernizr-2.8.3.min.js"></script>
 </head>
 <body>
@@ -116,47 +118,79 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST')
 
 <!-- Add your site or application content here -->
 <h1><?php echo $_GET["titulo"]; ?></h1>
-<form method="post">
-    <div>
-        <label>Nombre: <input type="text" name="nombre" value="<?php echo $datos["Nombre"];?>"></label>
+<form method="post" class="form-style-1" >
+<div>
+   <div class="div-nombre">
+    <label>Nombre: </label>
+    <input type="text" name="nombre" value="<?php echo $datos["Nombre"];?>">
+   </div>
+
+    <div class="div-nombre">
+        <label>Apellido: </label>
+        <input type="text" name="apellido" value="<?php echo $datos["Apellido"];?>">
     </div>
+</div>
+
     <div>
-        <label>Apellido: <input type="text" name="apellido" value="<?php echo $datos["Apellido"];?>"></label>
+        <label>Documento: </label>
+        <input type="number" name="dni" placeholder="Sin puntos ni guiones" value="<?php echo $datos["Documento"];?>">
     </div>
+
     <div>
-        <label>Documento: <input type="number" name="dni" placeholder="Sin puntos ni guiones" value="<?php echo $datos["Documento"];?>"></label>
+        <label>Fecha nacimiento: </label>
+        <input type="date" name="nacimiento" value="<?php echo $datos["Fecha_nacimiento"];?>">
+
     </div>
+<div>
+    <div class="div-dom">
+        <label>Direccion: </label>
+        <input type="text" name="direccion" value="<?php echo $datos["Direccion"];?>">
+    </div>
+
+    <div class="div-dom">
+        <label>Ciudad: </label>
+        <input type="text" name="ciudad" value="<?php echo $datos["Ciudad"];?>">
+    </div>
+
+    <div class="div-dom">
+
+        <label>Provincia:</label>
+        <input type="text" name="provincia" value="<?php echo $datos["Provincia"];?>">
+    </div>
+
+    <div class="div-dom">
+        <label>Codigo postal:</label>
+        <input type="number" name="codigo_postal" value="<?php echo $datos["Codigo_postal"];?>">
+    </div>
+</div>
+
     <div>
-        <label>Fecha nacimiento: <input type="date" name="nacimiento" value="<?php echo $datos["Fecha_nacimiento"];?>"></label>
+        <div class="div-contacto">
+            <label>Email:</label>
+            <input type="text" name="email" value="<?php echo $datos["Email"];?>">
+        </div>
+
+        <div class="div-contacto">
+            <label>Telefono:</label>
+            <input type="number" name="telefono" value="<?php echo $datos["Telefono"];?>">
+        </div>
+
+        <div class="div-contacto">
+            <label>Celular: </label>
+            <input type="number" name="celular" value="<?php echo $datos["Celular"];?>">
+        </div>
     </div>
-    <div>
-        <label>Direccion: <input type="text" name="direccion" value="<?php echo $datos["Direccion"];?>"></label>
-    </div>
-    <div>
-        <label>Ciudad: <input type="text" name="ciudad" value="<?php echo $datos["Ciudad"];?>"></label>
-    </div>
-    <div>
-        <label>Provincia: <input type="text" name="provincia" value="<?php echo $datos["Provincia"];?>"></label>
-    </div>
-    <div>
-        <label>Codigo postal: <input type="number" name="codigo_postal" value="<?php echo $datos["Codigo_postal"];?>"></label>
-    </div>
-    <div>
-        <label>Email: <input type="text" name="email" value="<?php echo $datos["Email"];?>"></label>
-    </div>
-    <div>
-        <label>Telefono: <input type="number" name="telefono" value="<?php echo $datos["Telefono"];?>"></label>
-    </div>
-    <div>
-        <label>Celular: <input type="number" name="celular" value="<?php echo $datos["Celular"];?>"></label>
-    </div>
+
 
     <div>
         <input type="submit" value="Aceptar" action="">
+        <a href="index.php" ><button type="button" id="btnUsuarioCancelar">Cancelar</button></a>
     </div>
+
+
 </form>
 
-<a href="index.php"><button>Cancelar</button></a>
+
 
 <script src="https://code.jquery.com/jquery-1.12.0.min.js"></script>
 <script>window.jQuery || document.write('<script src="js/vendor/jquery-1.12.0.min.js"><\/script>')</script>
