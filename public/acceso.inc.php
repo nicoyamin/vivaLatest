@@ -36,6 +36,8 @@ function userIsLoggedIn()
             }
             else $_SESSION['turno']="Sin iniciar";
 
+            $_SESSION["surtidores"]="No";
+
 
             return TRUE;
         }
@@ -48,6 +50,7 @@ function userIsLoggedIn()
             unset($_SESSION['password']);
             unset($_SESSION['turno']);
             unset($_SESSION['idTurno']);
+            unset($_SESSION['surtidores']);
             $GLOBALS['loginError'] = 'Clave o nombre de usuario incorrectos';
 
             return FALSE;
@@ -62,6 +65,7 @@ function userIsLoggedIn()
         unset($_SESSION['password']);
         unset($_SESSION['turno']);
         unset($_SESSION['idTurno']);
+        unset($_SESSION['surtidores']);
 
         session_destroy();
         header('Location: ' . $_POST['goto']);
