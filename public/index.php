@@ -65,7 +65,7 @@ else
 {
     $mensajeTurno = "Usted inicio su turno a Hs. ".$turnoIniciado[0]["Check_in"].". Su turno finaliza a Hs. ".$turnoIniciado[0]["Hora_salida"];
     //$_SESSION["codigo"]=$turnoIniciado[0]['Codigo'];//Guardar Codigo de confirmacion de turno en variable de sesion
-    $flagTurno = 2; //Turno iniciado. Puede mostrar boton de finalizar turno
+    $flagTurno = 2; //Turno iniciado. Puede mostrar boton de controlar surtidores
 }
 
 if (isset($_POST['submit']) && $_SERVER['REQUEST_METHOD'] == 'POST') {
@@ -92,7 +92,8 @@ if (isset($_POST['submit']) && $_SERVER['REQUEST_METHOD'] == 'POST') {
 if(isset($_POST['btnCierre']) && $_SERVER['REQUEST_METHOD'] == 'POST')
 {
     //dump($debe,$haber,$_SESSION,$_POST);
-        if($flagTurno==2 and $_POST["codigo"]==$turnoIniciado[0]["Codigo"])
+        //if($flagTurno==2 and $_POST["codigo"]==$turnoIniciado[0]["Codigo"])
+        if($flagTurno==2)
         {
             $db = new Viva\BaseDatos($viva);
             date_default_timezone_set("America/Argentina/Buenos_Aires");
@@ -181,14 +182,12 @@ if(isset($_POST['btnCierre']) && $_SERVER['REQUEST_METHOD'] == 'POST')
             header("Location: ventanaDescarga.php?nombre=$nombre&ruta=$ruta&atras=$atras");
         }
 
-        elseif($flagTurno==2 and $_POST["codigo"]!=$turnoIniciado[0]["Codigo"])
+        /*elseif($flagTurno==2 and $_POST["codigo"]!=$turnoIniciado[0]["Codigo"])
         {
             echo "<script type='text/javascript'>alert('El codigo es incorrecto');</script>";
-        }
+        }*/
 
 }
-
-
 
 ?>
 
@@ -224,8 +223,10 @@ if(isset($_POST['btnCierre']) && $_SERVER['REQUEST_METHOD'] == 'POST')
 
             <?php if($flagTurno==1) : ?>
                 <form action="" method="post"> <input type="submit" name="submit" class="btn btn-primary" value="Iniciar Turno"></form>
-            <?php elseif($flagTurno==2) : ?>
+            <?php elseif($flagTurno==2 && $_SESSION["surtidores"]=="Si") : ?>
                 <button data-toggle="modal" data-target="#modalFinalizar" class="btn btn-primary" value="Finalizar Turno" action="">Finalizar Turno </button>
+            <?php elseif($flagTurno==2 && $_SESSION["surtidores"]=="No") : ?>
+                <a href="surtidores.php" class="btn btn-primary" action="">Control de surtidores </a>
             <?php endif; ?>
 
         </div>
@@ -253,8 +254,8 @@ if(isset($_POST['btnCierre']) && $_SERVER['REQUEST_METHOD'] == 'POST')
 
                         </div>
                         <div>
-                            <label>Codigo de Confirmacion: <input type="text" name="codigo"></label>
-                            <p>Una vez finalizado su turno, pida el codigo de confirmacion a su supervisor</p>
+                            <!--<label>Codigo de Confirmacion: <input type="text" name="codigo"></label>-->
+                            <!--<p>Una vez finalizado su turno, pida el codigo de confirmacion a su supervisor</p>-->
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
