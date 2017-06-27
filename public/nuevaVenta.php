@@ -288,7 +288,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST')
 
     <input type="hidden" name="totalPost" id="totalPost" value="0">
 
-    <input type="submit" value="Aceptar" action="">
     <input type="button" class="btn btn-success" id="btnModalPago"  data-toggle="modal" data-target="#pago" value="Aceptar" action="">
 
 
@@ -605,7 +604,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST')
         {
             var idProd=response[0].Id;              //Usar Jquery para armar componenetes de cada fila
             var filaId=$('<input>').attr({type: 'hidden', id: 'id'+nroFilas, name: 'id'+nroFilas, value:idProd}).prop('outerHTML');
-            var filaCant=$('<input>').attr({type: 'number', step:'1', min:1, max:response[0].Stock, class:'cantidad', id: 'cantidad'+nroFilas, name: 'cantidad'+nroFilas, value:1}).prop('outerHTML');
+            var filaCant=$('<input>').attr({type: 'number', step:'0.01', min:0, max:response[0].Stock, class:'cantidad', id: 'cantidad'+nroFilas, name: 'cantidad'+nroFilas, value:1}).prop('outerHTML');
             var filaPrecio=$('<label>').attr({class:"precio", id:'precio'+nroFilas}).text(response[0].Precio).prop('outerHTML');
             var filaSubtotal=$('<label>').attr({class:"subtotal", id:'subtotal'+nroFilas}).text(response[0].Precio).prop('outerHTML');
             var filaQuitar=$('<input>').attr({type:'button',action:"", id:'quitarFila',name:nroFilas, value:'Quitar'}).prop('outerHTML');

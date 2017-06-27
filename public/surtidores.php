@@ -25,7 +25,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     $_SESSION["surtidores"]="Si";
 
-    header("Location: http://viva.app/index.php");
+    header("Location: index.php");
     die();
     //dump($_SESSION);
 
