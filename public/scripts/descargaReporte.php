@@ -22,6 +22,6 @@ if (file_exists($filePath)) {
 
     exit;
 }
-else echo "Arhcivo no encontrado";
+else echo "Archivo no encontrado";
 
 

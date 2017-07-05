@@ -12,8 +12,15 @@ if (!userIsLoggedIn()) {
     include 'login.php';
     exit();
 }
-if (!userHasRole('2') && !userHasRole('3')) {
+if (!userHasRole('1') && !userHasRole('2') && !userHasRole('3'))
+{
     $error = 'Solo administradores pueden acceder a esta pagina';
+    include 'accesoDenegado.php';
+    exit();
+}
+
+if (userHasRole('1') && $_SESSION["turno"]=="Sin iniciar") {
+    $error = 'Debe iniciar su turno para realizar este tipo de operaciones';
     include 'accesoDenegado.php';
     exit();
 }

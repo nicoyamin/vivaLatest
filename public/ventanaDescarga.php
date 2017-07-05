@@ -22,8 +22,8 @@ $atras=$_GET["atras"];
         }
     </script>
 </head>
-<body onload="startDownload();">
+<body onload="">
 <h1>Descarga de documentos</h1>
-<p>Su descarga comenzara en un momento. Si no inicia, use este <a href="download.php?ruta=<?=$_GET['ruta']?>&nombre=<?=$_GET['nombre']?>">link directo.</a></p>
+<p>Para descargar el documento, haga click <a href="download.php?ruta=<?=$_GET['ruta']?>&nombre=<?=$_GET['nombre']?>">AQUI</a></p>
 <a href="<?php echo $atras ?>">Pagina Anterior.</a>
 </body>
