@@ -51,6 +51,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <script type="text/javascript" charset="utf8" src="//cdn.rawgit.com/bpampuch/pdfmake/0.1.18/build/pdfmake.min.js"></script>
     <script type="text/javascript" charset="utf8" src="//cdn.rawgit.com/bpampuch/pdfmake/0.1.18/build/vfs_fonts.js"></script>
     <script type="text/javascript" charset="utf8" src="//cdn.datatables.net/buttons/1.2.2/js/buttons.html5.min.js"></script>
+    <script type="text/javascript" charset="utf8" src="//cdn.datatables.net/plug-ins/1.10.16/api/sum().js"></script>
 
 
 </head>
@@ -84,6 +85,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <th>Metros 3</th>
             <th>Precio</th>
             <th>Total</th>
+            <th>Quitar fila</th>
         </tr>
         </thead>
 
@@ -127,7 +129,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             dom: 'Bfrtip',
             buttons: [
                {
-                    extend: 'pdfHtml5',
+                   extend: 'pdfHtml5',
+                   exportOptions: {
+                       columns: [0, 1, 2, 3, 4, 5]
+                   },
                     footer:true,
                     className: "btnSurtidores",
                     filename: "Control de Surtidores"+"-"+$("#usuario").val()+"-"+hoy,
@@ -158,18 +163,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             var precio=$("#precio").val();
             var metros= salida-inicio;
 
-            totalInicio=parseFloat(totalInicio)+parseFloat(inicio);
-            totalFin=parseFloat(totalFin)+parseFloat(salida);
-            totalMetros=parseFloat(totalMetros)+parseFloat(metros);
-            totalGral=parseFloat(totalGral)+parseFloat(precio*metros);
+
+
+            //totalInicio=parseFloat(totalInicio)+parseFloat(inicio);
+            //totalFin=parseFloat(totalFin)+parseFloat(salida);
+            //totalMetros=parseFloat(totalMetros)+parseFloat(metros);
+            //totalGral=parseFloat(totalGral)+parseFloat(precio*metros);
 
             var filaSurtidor=$('<label>').text(surtidorNro).prop('outerHTML');
             var filaInicio=$('<label>').text(inicio).prop('outerHTML');
+            //var filaInicio=$('<input>').attr({type: 'number', step:'0.01', min:0, value:inicio}).prop('outerHTML');
             var filaSalida=$('<label>').text(salida).prop('outerHTML');
             var filaMetros=$('<label>').text(metros.toFixed(2)).prop('outerHTML');
             var filaPrecio=$('<label>').text(precio).prop('outerHTML');
             var filaTotal=$('<label>').text((precio*metros).toFixed(2)).prop('outerHTML');
-            //var filaQuitar=$('<input>').attr({type:'button',action:"", id:'quitarFila',name:nroFilas, value:'Quitar'}).prop('outerHTML');
+            var filaQuitar=$('<input>').attr({type:'button',action:"", id:'quitarFila',name:nroFilas, value:'Quitar'}).prop('outerHTML');
             //Agregar la fila dinamicamente a la tabla
             var fila = table.row.add([
                 filaSurtidor,
@@ -177,10 +185,26 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 filaSalida,
                 filaMetros,
                 filaPrecio,
-                filaTotal
+                filaTotal,
+                filaQuitar
             ]).draw(false);
 
 
+            //alert(totalInicio);
+
+            /*table.column( 1 ).every( function () {
+                var sum = this
+                    .data()
+                    .reduce( function (a,b) {
+                        return  parseFloat(a)+ parseFloat(b);
+                    } );
+
+                $( table.column(1).footer() ).html(sum);
+            } );*/
+            totalInicio=table.column( 1 ).data().sum();
+            totalFin=table.column( 2 ).data().sum();
+            totalMetros=table.column( 3 ).data().sum();
+            totalGral=table.column( 5 ).data().sum();
             //alert(totalInicio);
 
             $( table.column(1).footer() ).html(totalInicio.toFixed(2));
@@ -195,6 +219,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 
         }
+
+        $("#tablaSurtidores").on( 'click', 'input[id=quitarFila]', function () {
+            //alert("Hola");
+            table
+                .row( $(this).parents('tr') )
+                .remove()
+                .draw();
+
+            //calcularTotal();
+        } );
 
         $("#btnAceptar").on("click", function(){
             table.buttons('.btnSurtidores').trigger();

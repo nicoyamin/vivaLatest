@@ -75,6 +75,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST["btnBuscar"]) )
     <script type="text/javascript" charset="utf8" src="//cdn.rawgit.com/bpampuch/pdfmake/0.1.18/build/pdfmake.min.js"></script>
     <script type="text/javascript" charset="utf8" src="//cdn.rawgit.com/bpampuch/pdfmake/0.1.18/build/vfs_fonts.js"></script>
     <script type="text/javascript" charset="utf8" src="//cdn.datatables.net/buttons/1.2.2/js/buttons.html5.min.js"></script>
+    <script type="text/javascript" charset="utf8" src="//cdn.datatables.net/plug-ins/1.10.16/api/sum().js"></script>
 
 
 </head>
@@ -119,6 +120,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST["btnBuscar"]) )
                 </tr>
             <?php endforeach; ?>
             </tbody>
+            <tfoot>
+            <tr>
+                <th colspan="1" style="text-align:right">Cantidad afectada Total:</th>
+                <th colspan="1" style="text-align:right" id="total"></th>
+            </tr>
+            </tfoot>
         </table>
 
     <?php endif; ?>
@@ -133,16 +140,28 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST["btnBuscar"]) )
 <script type="text/javascript">
     $(document).ready(function(){
 
-        var table=$('#tablaResultados').dataTable({
+        var table=$('#tablaResultados').DataTable({
             dom: 'Bfrtip',
             buttons: [
-                'pdf'
+                {
+                    extend: 'pdfHtml5',
+                    footer:true
+                }
+
             ],
+
             "language": {
                 "url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Spanish.json"
             }
         });
+
+
+        var suma=table.column( 1 ).data().sum();
+        $('#total' ).html(suma.toFixed(2));
+
+
     });
+
 
 </script>
 
