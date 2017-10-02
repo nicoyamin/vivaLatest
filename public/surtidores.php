@@ -76,7 +76,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     </div>
 
-    <table  id="tablaSurtidores" class="table table-striped">
+    <table  id="tablaSurtidores" class="table table-striped medicion">
         <thead>
         <tr>
             <th>Surtidor</th>
@@ -105,6 +105,47 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     </table>
 
+    <div>
+        <label id="lblInicioPuente"> Inicio Puente: - </label>
+        <br>
+        <label id="lblSalidaPuente"> Salida Puente: - </label>
+        <br>
+        <label id="lblDiferenciaPuente"> Diferencia Puente: - </label>
+        <br>
+        <label id="lblPuenteMedicion"> Puente de Medicion: - </label>
+
+    </div>
+
+
+
+    <div class="modal fade" id="puente" tabindex="-1" role="dialog" aria-labelledby="basicModal" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+
+                <div class="modal-header">
+
+                    <label>Entrada Puente (m3): <input type="number" step="0.01" min="0" id="inicioPuente" class="mediciones"></label>
+                    <label>Salida Puente(m3): <input type="number" step="0.01" min="0" id="salidaPuente" class="mediciones"></label>
+                    <label>Puente de medicion(m3): <input type="number" step="0.01" min="0" id="puenteMedicion" class="mediciones"></label>
+
+                    <div>
+                        <label id="lblDiferencia">Diferencia Puente: 0</label>
+                    </div>
+
+
+                    <div class="modal-footer">
+
+                        <button type="button" class="btn btn-default"  id="Cerrar" data-dismiss="modal">Aceptar</button>
+
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
+
 
 </form>
 
@@ -113,12 +154,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <script>
     $(document).ready(function(){
 
+        $(window).on('load',function(){
+            $('#puente').modal('show');
+        });
+
+        $(".mediciones").change(function(){
+            calcularTotal();
+        });
+
         var nroFilas=1;
         var totalInicio=0;
         var totalFin=0;
         var totalMetros=0;
         var totalGral=0;
         var hoy = new Date().toJSON().slice(0,10).replace(/-/g,'/');
+
 
         var table=$('#tablaSurtidores').DataTable({
 
@@ -130,6 +180,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             buttons: [
                {
                    extend: 'pdfHtml5',
+                   customize: function ( doc ) {
+                       doc.content.splice(1, 0, {
+                       text: "Informacion de Puente",
+                           Style: "header",
+
+                           ul: [
+                               $('#lblInicioPuente').text(),
+                               $('#lblSalidaPuente').text(),
+                               $('#lblDiferenciaPuente').text(),
+                               $('#lblPuenteMedicion').text()
+                           ]
+                       })
+                   },
                    exportOptions: {
                        columns: [0, 1, 2, 3, 4, 5]
                    },
@@ -148,9 +211,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         table.buttons('.btnSurtidores').disable();
 
 
-
-
-
         $("#btnNuevaFila").on("click", function(){
             nuevaFila();
         });
@@ -162,6 +222,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             var salida=$("#salida").val();
             var precio=$("#precio").val();
             var metros= salida-inicio;
+
 
 
 
@@ -237,7 +298,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         });
 
 
+        function calcularTotal()
+        {
+            var diferencia=0;
+            var inicio=$("#inicioPuente").val();
+            var salida=$("#salidaPuente").val();
+            var medicion=$("#puenteMedicion").val();
 
+            diferenciaTotal=parseFloat(salida-inicio).toFixed(2);
+            $("#lblDiferencia").text("Diferencia Puente: "+diferenciaTotal);
+
+            $("#lblInicioPuente").text("Inicio Puente: "+inicio);
+            $("#lblSalidaPuente").text("Salida Puente: "+salida);
+            $("#lblDiferenciaPuente").text("Diferencia Puente: "+diferenciaTotal);
+            $("#lblPuenteMedicion").text("Puente de Medicion: "+medicion);
+        }
 
 
 
